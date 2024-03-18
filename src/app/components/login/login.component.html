@@ -1,1 +1,39 @@
-<p>login works!</p>
+<p-header>
+  <div class="header-content">
+    <img src="../assets/logoTask.png" alt="Logo" style="width: 100px;">
+    <span>Task Manager</span>
+  </div>
+</p-header>
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-4 offset-md-4 mt-4">
+      <h2>Log in</h2>
+    </div>
+  </div>
+  <div class="row mt-5">
+      <div class="col-md-4 offset-md-4">
+          <p-inputGroup>
+              <p-inputGroupAddon>
+                  <i class="pi pi-user"></i>
+              </p-inputGroupAddon>
+              <input pInputText placeholder="Username" [(ngModel)]="username" class="p-inputtext"/>
+          </p-inputGroup>
+      </div>
+  </div>
+  <div class="row mt-4">
+      <div class="col-md-4 offset-md-4">
+          <p-inputGroup>
+              <p-inputGroupAddon>
+                  <i class="pi pi-lock"></i>
+              </p-inputGroupAddon>
+              <input pInputText placeholder="Password" [(ngModel)]="password" class="p-inputtext"/>
+          </p-inputGroup>
+      </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-4 offset-md-4">
+      <p-button label="Acceder" (onClick)="login()"></p-button>
+    </div>
+</div>
+</div>
+
