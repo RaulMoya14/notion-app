@@ -12,6 +12,7 @@ export class LoginService {
 
     this.httpclient.post<any>('http://localhost:3000/auth/login', {username: username, password: password}).subscribe(data => {
       console.log(data);
+      return data;
     });
 
   }
