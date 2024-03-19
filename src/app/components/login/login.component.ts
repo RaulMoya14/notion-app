@@ -4,6 +4,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login-service.service';
 
 @Component({
   selector: 'app-login',
@@ -14,18 +15,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  username?: string;
-  password?: string;
+  username: string = '';
+  password: string = '';
 
-  constructor( private router:Router) { }
+  constructor( private router:Router, private loginService:LoginService) { }
 
   login() {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
-    if (this.username == 'a' && this.password == 'a') {
-      console.log('Login successful');
-      this.router.navigate(['home']);
-    }
+
+    this.loginService.login(this.username, this.password);
 
   }
 }
