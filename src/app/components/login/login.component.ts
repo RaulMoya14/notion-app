@@ -24,7 +24,13 @@ export class LoginComponent {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
 
-    this.loginService.login(this.username, this.password);
+    this.loginService.login(this.username, this.password).subscribe((data: any) => {
+      console.log(data);
+      if (data.status == 'OK') {
+        sessionStorage.setItem('user', data.user);
+        this.router.navigate(['/home']);
+      }
+    });
 
   }
 }
