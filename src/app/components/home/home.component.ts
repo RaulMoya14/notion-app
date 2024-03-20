@@ -1,3 +1,4 @@
+import { ViewNoteComponent } from './../view-note/view-note.component';
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -7,30 +8,48 @@ import { CalendarModule } from 'primeng/calendar';
 import { NotesService } from '../../services/notes.service';
 import { Note } from '../../interfaces/note';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
+
+interface UploadEvent {
+    originalEvent: Event;
+    files: File[];
+}
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, InputGroupAddonModule, InputGroupModule, ButtonModule, CalendarModule], // Agrega CommonModule aquí
+  imports: [CommonModule, HeaderComponent, InputGroupAddonModule, InputGroupModule, ButtonModule, CalendarModule,FormsModule,FileUploadModule], // Agrega CommonModule aquí
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  providers: [MessageService]
 })
 export class HomeComponent {
-  notes: Note[] = [];
 
-  constructor(private notesService: NotesService) {
+  notes: Note[] = [];
+  fechaFormulario: Date = new Date();
+  title: string = '';
+  description: string = '';
+  url_img_note: string = '';
+
+  constructor(private notesService: NotesService, private messageService: MessageService) {
     this.getNotes();
     console.log("notes: " + this.notes)
   }
 
+  onBasicUploadAuto(event: UploadEvent) {
+    this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Image link to the note' });
+}
+
   addNote() {
-    const titleInput = document.getElementById('titleInput') as HTMLInputElement;
-    const descriptionInput = document.getElementById('descriptionInput') as HTMLInputElement;
-
-    const title = titleInput.value;
-    const description = descriptionInput.value;
-
-    this.notesService.createNote(title, description);
+    console.log("EN addNote")
+    console.log("title: " + this.title)
+    console.log("description: " + this.description)
+    console.log("fechaFormulario: " + this.fechaFormulario)
+    console.log("url_img_note: " + this.url_img_note)
+    this.notesService.createNote(this.title, this.description,this.fechaFormulario,this.url_img_note);
+    this.getNotes();
   }
 
   getNotes() {
@@ -51,12 +70,19 @@ export class HomeComponent {
   }
 
   editNote(id: number){
-    //this.notesService.updateNote(id);
+    console.log("EN editNote")
+
+    this.notesService.updateNote(id,this.title,this.description,this.fechaFormulario,this.url_img_note);
+    this.getNotes();
   }
 
+  viewNote(id: number){
+    console.log("EN ViewNoteComponent")
+  }
 
   deleteNote(id: number){
+    console.log("EN deleteNote")
     this.notesService.deleteNote(id);
-    location.reload();
+    this.getNotes();
   }
 }
