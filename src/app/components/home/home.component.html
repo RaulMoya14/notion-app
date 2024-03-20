@@ -1,37 +1,48 @@
 <div class="container">
   <div class="row mt-5">
-    <div class="col-md-4 offset-md-4 mt-4">
+    <div class="col-md-4 offset-md-1 mt-4">
       <h2>Add a note</h2>
-    </div>
-  </div>
-  <div class="row mt-3">
-      <div class="col-md-4 offset-md-4">
+      <div class="row mt-3">
+        <div class="col-md-12">
           <p-inputGroup>
-              <p-inputGroupAddon>
-                  <i class="pi pi-pencil"></i>
-              </p-inputGroupAddon>
-              <input pInputText placeholder="Title" class="p-inputtext"/>
+            <p-inputGroupAddon>
+              <i class="pi pi-pencil"></i>
+            </p-inputGroupAddon>
+            <input pInputText placeholder="Title" class="p-inputtext" id="titleInput" />
           </p-inputGroup>
+        </div>
       </div>
-  </div>
-  <div class="row mt-3">
-      <div class="col-md-4 offset-md-4">
+      <div class="row mt-3">
+        <div class="col-md-12">
           <p-inputGroup>
-              <p-inputGroupAddon>
-                  <i class="pi pi-plus"></i>
-              </p-inputGroupAddon>
-              <input pInputText placeholder="Description" class="p-inputtext"/>
+            <p-inputGroupAddon>
+              <i class="pi pi-plus"></i>
+            </p-inputGroupAddon>
+            <input pInputText placeholder="Description" class="p-inputtext" id="descriptionInput" />
           </p-inputGroup>
+        </div>
       </div>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <p-button label="Add" (click)="addNote()"></p-button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h2>Your notes</h2>
+      <ul>
+        <li *ngFor="let note of notes">
+          <strong>{{ note.title }}</strong>: {{ note.content }}
+          <span class="note-actions">
+            <button class="edit-button" (click)="editNote(note.id)">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button class="delete-button" (click)="deleteNote(note.id)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="row mt-3">
-    <div class="col-md-4 offset-md-4">
-      <p-calendar [showIcon]="true"></p-calendar>
-    </div>
-</div>
-  <div class="row mt-5">
-    <div class="col-md-4 offset-md-4">
-      <p-button label="Add" (onClick)="addNote()"></p-button>
-    </div>
-</div>
 </div>

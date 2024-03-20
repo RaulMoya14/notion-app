@@ -4,7 +4,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-service.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,18 @@ export class LoginComponent {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
 
-    this.loginService.login(this.username, this.password);
-
+    this.loginService.login(this.username, this.password).subscribe(
+      (response) => {
+        console.log(response)
+        if (response.status === 'OK') {
+          this.router.navigate(['/home']);
+        } else {
+          console.log('Combinación de usuario/contraseña incorrecta');
+        }
+      },
+      (error) => {
+        console.error('Error en la solicitud: ', error);
+      }
+    );
   }
 }
