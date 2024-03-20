@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,9 @@ export class LoginService {
 
   constructor( private httpclient:HttpClient) { }
 
-  login(username:string, password:string){
+  login(username:string, password:string): Observable<any> {
 
-    this.httpclient.post<any>('http://localhost:3000/auth/login', {username: username, password: password}).subscribe(data => {
-      console.log(data);
-      return data;
-    });
+    return this.httpclient.post<any>('http://localhost:3000/auth/login', {username: username, password: password});
 
   }
 

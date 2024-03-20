@@ -4,7 +4,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/login-service.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -24,13 +24,7 @@ export class LoginComponent {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
 
-    this.loginService.login(this.username, this.password).subscribe((data: any) => {
-      console.log(data);
-      if (data.status == 'OK') {
-        sessionStorage.setItem('user', data.user);
-        this.router.navigate(['/home']);
-      }
-    });
+    this.loginService.login(this.username, this.password);
 
   }
 }
