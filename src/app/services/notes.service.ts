@@ -18,6 +18,10 @@ export class NotesService {
         });
     }
 
+    getNote(id:number) {
+        return this.httpclient.get<any>(`http://localhost:3000/notes/${id}`);
+    }
+
     updateNote(id: number, title: string, content: string, dateForm: Date, url_img_note: string) {
         this.httpclient.put<any>(`http://localhost:3000/notes/${id}`, { title: title, content: content , dateForm: dateForm, url_img_note: url_img_note }).subscribe(data => {
             console.log(data);
