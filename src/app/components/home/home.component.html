@@ -2,7 +2,7 @@
 
   <div class="row mt-5">
     <div class="col-md-6">
-      <h2>Add a note</h2>
+      <h2>{{ editingNoteId !== null ? 'Editing Note' : 'Add a Note' }}</h2>
       <div class="row mt-4">
         <p-inputGroup>
           <p-inputGroupAddon>
@@ -27,21 +27,22 @@
         <p-fileUpload mode="basic" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" [auto]="true" chooseLabel="Browse"></p-fileUpload>
       </div>
       <div class="row mt-5 justify-content-center">
-        <p-button label="Add" (click)="addNote()"></p-button>
+        <p-button label="{{ editingNoteId !== null ? 'Save' : 'Add' }}" (click)="addOrUpdateNote()"></p-button>
+        <button *ngIf="editingNoteId !== null" pButton type="button" label="Cancel" (click)="cancelEdit()" class="p-button-danger ml-2"></button>
       </div>
     </div>
-      <div class="col-md-6">
-        <h2>Your notes</h2>
-        <ul>
-          <li *ngFor="let note of notes">
-            <div class="row mt-4">
-
-            </div>
-            <strong>{{ note.title }}</strong>
-              <button pButton type="button" icon="pi pi-eye" (click)="viewNote(note.id)"  class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
-              <button pButton type="button" icon="pi pi-pencil" (click)="editNote(note.id)"  class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
-              <button pButton type="button" icon="pi pi-trash" (click)="deleteNote(note.id)"  class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
-          </li>
-        </ul>
-      </div>
+    <div class="col-md-6">
+      <h2>Your notes</h2>
+      <ul>
+        <li *ngFor="let note of notes">
+          <div class="row mt-4">
+          </div>
+          <strong>{{ note.title }}</strong>
+          <button pButton type="button" icon="pi pi-eye" (click)="viewNote(note.id)" class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
+          <button pButton type="button" icon="pi pi-pencil" (click)="editNote(note.id)" class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
+          <button pButton type="button" icon="pi pi-trash" (click)="deleteNote(note.id)" class="p-button-rounded p-button-text p-button-plain" style="font-size: 1.5rem;color: #2C63EB;"></button>
+        </li>
+      </ul>
     </div>
+  </div>
+</div>

@@ -33,6 +33,7 @@ export class HomeComponent {
   title: string = '';
   description: string = '';
   url_img_note: string = '';
+  editingNoteId: number | null = null;
 
   constructor(private router:Router,private notesService: NotesService, private messageService: MessageService) {
     this.getNotes();
@@ -42,7 +43,7 @@ export class HomeComponent {
   onBasicUploadAuto(event: UploadEvent) {
     this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Image link to the note' });
 }
-
+  /*
   addNote() {
     console.log("EN addNote")
     console.log("title: " + this.title)
@@ -51,6 +52,42 @@ export class HomeComponent {
     console.log("url_img_note: " + this.url_img_note)
     this.notesService.createNote(this.title, this.description,this.fechaFormulario,this.url_img_note);
     this.getNotes();
+  }
+  */
+
+
+  addOrUpdateNote() {
+    if (this.editingNoteId !== null) {
+      this.notesService.updateNote(this.editingNoteId, this.title, this.description, this.fechaFormulario, this.url_img_note);
+      this.editingNoteId = null;
+    } else {
+      this.notesService.createNote(this.title, this.description, this.fechaFormulario, this.url_img_note);
+    }
+    this.resetForm();
+    this.getNotes();
+  }
+
+  editNote(id: number) {
+    this.editingNoteId = id;
+    const note = this.notes.find(note => note.id === id);
+    if (note) {
+      this.title = note.title;
+      this.description = note.content;
+      this.fechaFormulario = new Date(note.date);
+      this.url_img_note = note.url_img_note;
+    }
+  }
+
+  cancelEdit() {
+    this.editingNoteId = null;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.title = '';
+    this.description = '';
+    this.fechaFormulario = new Date();
+    this.url_img_note = '';
   }
 
   getNotes() {
@@ -69,13 +106,13 @@ export class HomeComponent {
       }
     );
   }
-
+  /*
   editNote(id: number){
     console.log("EN editNote")
 
     this.notesService.updateNote(id,this.title,this.description,this.fechaFormulario,this.url_img_note);
     this.getNotes();
-  }
+  } */
 
   viewNote(id: number){
     console.log("EN ViewNoteComponent")

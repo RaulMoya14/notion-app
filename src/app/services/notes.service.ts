@@ -10,8 +10,8 @@ export class NotesService {
 
     constructor(private httpclient: HttpClient) { }
 
-    createNote(title: string, content: string, dateForm: Date, url_img_note: string) {
-        this.httpclient.post<any>('http://localhost:3000/notes/create', { title: title, content: content , dateForm: dateForm, url_img_note: url_img_note}).subscribe(data => {
+    createNote(title: string, content: string, date: Date, imageUrl: string) {
+        this.httpclient.post<any>('http://localhost:3000/notes/create', { title: title, content: content , date: date, imageUrl: imageUrl}).subscribe(data => {
             console.log(data);
         }, (error) => {
             console.log('Error en la solicitud: ', error);
@@ -22,8 +22,8 @@ export class NotesService {
         return this.httpclient.get<any>(`http://localhost:3000/notes/${id}`);
     }
 
-    updateNote(id: number, title: string, content: string, dateForm: Date, url_img_note: string) {
-        this.httpclient.put<any>(`http://localhost:3000/notes/${id}`, { title: title, content: content , dateForm: dateForm, url_img_note: url_img_note }).subscribe(data => {
+    updateNote(id: number, title: string, content: string, date: Date, imageUrl: string) {
+        this.httpclient.put<any>(`http://localhost:3000/notes/${id}`, { title: title, content: content , date: date, imageUrl: imageUrl }).subscribe(data => {
             console.log(data);
         }, (error) => {
             console.log('Error en la solicitud: ', error);
