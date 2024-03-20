@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface UploadEvent {
     originalEvent: Event;
@@ -33,7 +34,7 @@ export class HomeComponent {
   description: string = '';
   url_img_note: string = '';
 
-  constructor(private notesService: NotesService, private messageService: MessageService) {
+  constructor(private router:Router,private notesService: NotesService, private messageService: MessageService) {
     this.getNotes();
     console.log("notes: " + this.notes)
   }
@@ -78,6 +79,7 @@ export class HomeComponent {
 
   viewNote(id: number){
     console.log("EN ViewNoteComponent")
+    this.router.navigate([`/viewNote/${id}`]);
   }
 
   deleteNote(id: number){

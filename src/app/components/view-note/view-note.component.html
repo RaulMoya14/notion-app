@@ -1,1 +1,24 @@
-<p>view-note works!</p>
+<div class="container-fluid p-5">
+  <div class="row mt-5">
+    <div class="col-md-8">
+      <h1>{{note.title}}</h1>
+    </div>
+
+    <div class="col-md-4">
+      <p>{{note.date}}</p>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <p class="lead">Descripción de la Nota</p>
+      <p>{{note.content}}</p>
+    </div>
+      @if (note.url_img_note) {
+        <div class="col-md-6 text-right">
+          @if (note.url_img_note) {}
+          <img src={{note.url_img_note}} alt="Imagen de la Nota" class="img-fluid rounded" style="max-height: 200px;">
+        </div>
+      }
+    </div>
+  </div>
+
