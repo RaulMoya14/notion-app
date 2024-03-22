@@ -15,9 +15,15 @@
     </div>
       @if (note.url_img_note) {
         <div class="col-md-6 text-right">
-          @if (note.url_img_note) {}
-          <img src={{note.url_img_note}} alt="Imagen de la Nota" class="img-fluid rounded" style="max-height: 200px;">
+            <img src={{note.url_img_note}} alt="Imagen de la Nota" class="img-fluid rounded" style="max-height: 400px;">
+          </div>
+
+      } @else {
+        <div class="col-md-6 text-right">
+
+          <img src='assets/no_image.png' alt="Imagen de la Nota" class="img-fluid rounded" style="max-height: 400px;">
         </div>
+
       }
     </div>
   </div>
