@@ -27,8 +27,12 @@
         <p-fileUpload mode="basic" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" [auto]="true" chooseLabel="Browse"></p-fileUpload>
       </div>
       <div class="row mt-5 justify-content-center">
+        <div class="col-md-6">
         <p-button label="{{ editingNoteId !== null ? 'Save' : 'Add' }}" (click)="addOrUpdateNote()"></p-button>
-        <button *ngIf="editingNoteId !== null" pButton type="button" label="Cancel" (click)="cancelEdit()" class="p-button-danger ml-2"></button>
+        </div>
+        <div class="col-md-6">
+          <button *ngIf="editingNoteId !== null" pButton type="button" label="Cancel" (click)="cancelEdit()" class="p-button-danger ml-2" style="width: 40vh;"></button>
+        </div>
       </div>
     </div>
     <div class="col-md-6">

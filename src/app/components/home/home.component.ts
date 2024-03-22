@@ -57,6 +57,8 @@ export class HomeComponent {
 
 
   addOrUpdateNote() {
+    this.getNotes();
+
     if (this.editingNoteId !== null) {
       this.notesService.updateNote(this.editingNoteId, this.title, this.description, this.fechaFormulario, this.url_img_note);
       this.editingNoteId = null;
@@ -120,6 +122,8 @@ export class HomeComponent {
   }
 
   deleteNote(id: number){
+    this.getNotes();
+
     console.log("EN deleteNote")
     this.notesService.deleteNote(id);
     this.getNotes();
