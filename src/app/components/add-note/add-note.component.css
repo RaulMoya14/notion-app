@@ -1,0 +1,49 @@
+#titleInput{
+  border: none;
+  &:focus{
+    outline: none;
+  }
+  font-size: 30px;
+}
+.container.note{
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+  background-color: #fff;
+  display: flex;
+  &:hover{
+    cursor: text;
+  }
+}
+
+.inputItemNote{
+  display: inline-flex;
+  border: none;
+  &:focus{
+    outline: none;
+  }
+  font-size: 20px;
+  margin-left: 1rem;
+}
+
+.uploaded-image{
+  max-width: 350px;
+  max-height: 350px;
+  padding: 1rem;
+  margin-left: 5rem;
+}
+
+label{
+  display: flex;
+  align-items: center;
+}
+
+.container.note input[type="checkbox"] {
+  margin-right: -7px;
+  margin-left: 4rem;
+}
+
+li {
+  list-style-type: none; /* Elimina los puntos de la lista */
+}

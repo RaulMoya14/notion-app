@@ -1,35 +1,33 @@
-<div class="container">
+<app-menu></app-menu>
+
+<!-- <div class="container">
 
   <div class="row mt-5">
     <div class="col-md-6">
       <h2>{{ editingNoteId !== null ? 'Editing Note' : 'Add a Note' }}</h2>
       <div class="row mt-4">
-        <p-inputGroup>
-          <p-inputGroupAddon>
-            <i class="pi pi-pencil"></i>
-          </p-inputGroupAddon>
-          <input pInputText placeholder="Title" class="p-inputtext" id="titleInput" [(ngModel)]="title" />
-        </p-inputGroup>
+          <input pInputText placeholder="Title" id="titleInput" [(ngModel)]="title" />
       </div>
       <div class="row mt-4">
-        <p-inputGroup>
-          <p-inputGroupAddon>
-            <i class="pi pi-plus"></i>
-          </p-inputGroupAddon>
-          <input pInputText placeholder="Description" class="p-inputtext" [(ngModel)]="description" />
-        </p-inputGroup>
-
+          <input pInputText placeholder="Description" [(ngModel)]="description" />
       </div>
       <div class="row mt-4">
-        <p-calendar [(ngModel)]="fechaFormulario" [showIcon]="true"></p-calendar>
+        <input type="date"[(ngModel)]="fechaFormulario"/>
       </div>
       <div class="row mt-4">
-        <p-fileUpload mode="basic" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" [auto]="true" chooseLabel="Browse"></p-fileUpload>
+        <app-list-note></app-list-note>
+      </div>
+      <div class="row mt-4">
+        <input type="file" (change)="onFileSelected($event)"/>
       </div>
       <div class="row mt-5 justify-content-center">
-        <p-button label="{{ editingNoteId !== null ? 'Save' : 'Add' }}" (click)="addOrUpdateNote()"></p-button>
-        <button *ngIf="editingNoteId !== null" pButton type="button" label="Cancel" (click)="cancelEdit()" class="p-button-danger ml-2"></button>
-      </div>
+        <div class="col-md-6">
+          <p-button label="{{ editingNoteId !== null ? 'Save' : 'Add' }}" (click)="addOrUpdateNote()" [style]="{'width':'40vh'}"></p-button>
+        </div>
+        <div class="col-md-6">
+          <button *ngIf="editingNoteId !== null" pButton type="button" label="Cancel" (click)="cancelEdit()" style="width: 40vh;" class="p-button-danger ml-2"></button>
+        </div>
+        </div>
     </div>
     <div class="col-md-6">
       <h2>Your notes</h2>
@@ -45,4 +43,4 @@
       </ul>
     </div>
   </div>
-</div>
+</div> -->

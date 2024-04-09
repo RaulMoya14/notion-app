@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Note } from '../interfaces/note';
+import { Note } from '../models/note';
 
 @Injectable({
     providedIn: 'root'
@@ -10,8 +10,8 @@ export class NotesService {
 
     constructor(private httpclient: HttpClient) { }
 
-    createNote(title: string, content: string, date: Date, imageUrl: string) {
-        this.httpclient.post<any>('http://localhost:3000/notes/create', { title: title, content: content , date: date, imageUrl: imageUrl}).subscribe(data => {
+    addNote(jsonNote:any) {
+        this.httpclient.post<any>('http://localhost:3000/notes/insert', jsonNote,{ headers: { 'Content-Type': 'application/json' } } ).subscribe(data => {
             console.log(data);
         }, (error) => {
             console.log('Error en la solicitud: ', error);
@@ -19,7 +19,7 @@ export class NotesService {
     }
 
     getNote(id:number) {
-        return this.httpclient.get<any>(`http://localhost:3000/notes/${id}`);
+      return this.httpclient.get<any>(`http://localhost:3000/notes/${id}`);
     }
 
     updateNote(id: number, title: string, content: string, date: Date, imageUrl: string) {
@@ -38,8 +38,8 @@ export class NotesService {
         });
     }
 
-    getNotes(): Observable<any> {
-        return this.httpclient.get<any>(`http://localhost:3000/notes`);
+    getNotes(idUser:string): Observable<any> {
+        return this.httpclient.get<any>(`http://localhost:3000/notes/user/${idUser}`);
     }
 
 }

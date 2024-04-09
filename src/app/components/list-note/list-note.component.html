@@ -1,0 +1,12 @@
+<p>List</p>
+<div class="row">
+  <input type="text" [(ngModel)]="listItem" (keyup.enter)="addNoteToList()">
+</div>
+@for (noteItem of listNotes; let i = $index; track i) {
+  <div class="listNotes">
+    <div class="row mt-2">
+      <input type="text" [(ngModel)]="listNotes[i]">
+    </div>
+  </div>
+}
+
