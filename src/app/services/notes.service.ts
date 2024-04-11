@@ -30,9 +30,9 @@ export class NotesService {
         });
     }
 
-    deleteNoteById(id: number) {
+    deleteNoteById(id: string) {
         this.httpclient.delete<any>(`http://localhost:3000/notes/${id}`).subscribe(data => {
-            console.log(data);
+            console.log(data.status);
         }, (error) => {
             console.log('Error en la solicitud: ', error);
         });

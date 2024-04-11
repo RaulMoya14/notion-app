@@ -15,6 +15,6 @@ export const routes: Routes = [
         { path: 'home', component: HomeComponent},
         { path: 'userNotes', component: ViewUserNotesComponent},
         { path: 'addNote', component: AddNoteComponent},
-        { path: 'viewNote:id', component: ViewNoteComponent}
+        { path: 'viewNote/:id', component: ViewNoteComponent}
     ]}
 ];

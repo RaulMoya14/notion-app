@@ -42,9 +42,9 @@ export class ViewUserNotesComponent implements OnInit{
   }
 
   deleteNoteById(id:string){
-    let idNote = parseInt(id);
-    this.notesService.deleteNoteById(idNote);
-    this.getNotes();
+    console.log('Eliminando nota con id: ', id);
+    this.notesService.deleteNoteById(id);
+    window.location.reload();
   }
   editNoteById(idNote:string){
     console.log(idNote)

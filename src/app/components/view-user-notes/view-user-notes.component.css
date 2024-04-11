@@ -2,7 +2,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  min-height: 10vh;
+  padding-top: 5rem;
+}
+
+.note-list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
 }
 
 .note-list {
@@ -19,16 +27,21 @@
   border-radius: 5px;
 }
 
-.note-title {
+.note-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.note-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 .note-actions {
   display: flex;
-  justify-content: space-between;
 }
+
 
 .btn-edit,
 .btn-delete {

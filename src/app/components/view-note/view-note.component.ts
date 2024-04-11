@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../services/notes.service';
 import { DropdownItemComponent } from '../dropdown-item/dropdown-item.component';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-note',
@@ -20,18 +21,16 @@ export class ViewNoteComponent implements OnInit{
   itemsList: Item[] = [];
   idNote?: string;
 
-  constructor(private notesService:NotesService, private route: ActivatedRoute) { }
+  constructor(private notesService:NotesService, private route: ActivatedRoute, private router:Router) { }
 
   ngOnInit(){
     this.getNote();
   }
   getNote(){
     const idNote = this.route.snapshot.paramMap.get('id');
-    console.log('idNote: ', idNote);
     if(idNote){
       this.idNote = idNote;
       this.notesService.getNote(idNote).subscribe((data) => {
-        console.log('Data: ', data);
         this.addInfoToListNotes(data);
       });
     }
@@ -40,8 +39,6 @@ export class ViewNoteComponent implements OnInit{
   addInfoToListNotes(data:any){
     this.title = data[0].title;
     this.itemsList = data[0].items;
-    console.log('En añaadir info a la lista de notas');
-    console.log('ItemsList: ', this.itemsList);
   }
 
   addFieldToNote(fieldType: string) {
@@ -59,11 +56,8 @@ export class ViewNoteComponent implements OnInit{
     let note = {
       user: sessionStorage.getItem('userId') || '',
       title: this.title,
-      items: [this.itemsList]
+      items: this.itemsList
     };
-    // for (let i = 0; i < this.itemsList.length; i++) {
-    //   note.items.push(this.itemsList[i]);
-    // }
     console.log('Note: ', note);
     this.notesService.updateNote(note,this.idNote || '')
   }
