@@ -1,5 +1,9 @@
-.sidebar{
-  background-color: #F7F7F5;
+.container-fluid.sidebar{
+  display: inline-block;
+  left: 0 !important;
+  position:fixed !important;
+  width: 20rem;
+  background-color: #f1f1e8;
 }
 .nav-link{
   color: black;

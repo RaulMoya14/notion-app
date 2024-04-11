@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -8,6 +9,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit{
 
+  username: string = '';
+
+  constructor(private router:Router) { }
+
+  ngOnInit(): void {
+    this.username = sessionStorage.getItem('username') || '';
+    console.log('Username:', this.username);
+  }
+  signOut(){
+    sessionStorage.clear();
+    this.router.navigate(['']);
+  }
 }

@@ -1,4 +1,40 @@
-<div class="container-fluid p-5">
-
+<div class="container">
+  <div class="row mt-5">
+    <h1>See and edit your note if you want!! Don't forget anything</h1>
   </div>
-
+  <div class="container mt-4">
+    <div class="row title">
+      <input pInputText placeholder="Untitled" id="titleInput" [(ngModel)]="title"/>
+    </div>
+    <div class="container note" #containerNote (click)="clickAddFieldToNote($event, containerNote)">
+      <app-dropdown-item (addField)="addFieldToNote($event)"></app-dropdown-item>
+      <div class="row align-items-center">
+        @for (item of itemsList; track $index) {
+          @switch (item.type) {
+            @case ("Text") {
+              <input class="inputItemNote" placeholder="Write something" [(ngModel)]="item.data"/>
+            }
+            @case ("Image") {
+              <input type="file" class="inputItemNote" placeholder="Write something" [(ngModel)]="item.data" (change)="onFileSelected($event,item)"/>
+              @if (item.data !== "") {
+                <img [src]="item.data" class="uploaded-image">
+              }
+            }
+            @case ("List") {
+              <li>
+                <label>
+                  <input type="checkbox">
+                  <input type="text" class="inputItemNote" placeholder="Edit your task list" [(ngModel)]="item.data" (keyup.enter)="addFieldToNote('List')">
+                </label>
+              </li>
+            }
+            @case ("Heading") {
+              <input type="text" class="inputItemNote" placeholder="Heading" [(ngModel)]="item.data" style="font-size: 32px;"/>
+            }
+          }
+        }
+      </div>
+  </div>
+  <div class="row mt-4"></div>
+  <button class="btn btn-primary" (click)="editNote()">Save Changes</button>
+</div>

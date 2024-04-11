@@ -16,9 +16,19 @@ export class LoginService {
       password: password
     }
     const body = JSON.stringify(user);
-
     return this.httpclient.post<any>('http://localhost:3000/login', body, { headers: { 'Content-Type': 'application/json' } });
+  }
 
+  register(username:string, password:string, email:string): Observable<any> {
+
+    const user = {
+      username: username,
+      password: password,
+      email: email
+    }
+    console.log(user)
+    const body = JSON.stringify(user);
+    return this.httpclient.post<any>('http://localhost:3000/register', body, { headers: { 'Content-Type': 'application/json' } });
   }
 
 }

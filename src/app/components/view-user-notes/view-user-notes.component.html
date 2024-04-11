@@ -1,0 +1,17 @@
+<div class="note-list-container mt-5">
+  <div class="note-list">
+    <div *ngFor="let note of notes" class="note-item">
+      <div class="note-title">{{ note.title }}</div>
+      <div class="note-actions">
+        <button class="btn-edit" (click)="editNoteById(note.idNote)">
+          <i class="bi bi-pencil-fill"></i>
+        </button>
+        <button class="btn-delete" (click)="deleteNoteById(note.idNote)">
+          <i class="bi bi-trash-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

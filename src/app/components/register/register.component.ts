@@ -7,30 +7,27 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [FormsModule,InputGroupAddonModule,InputGroupModule,ButtonModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
-export class LoginComponent {
+export class RegisterComponent {
 
   username: string = '';
   password: string = '';
+  email: string = '';
+  registerCompleted: boolean = false;
 
   constructor( private router:Router, private loginService:LoginService) { }
 
-  login() {
-
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
-
-    this.loginService.login(this.username, this.password).subscribe(response => {
+  register() {
+    this.loginService.register(this.username, this.password, this.email).subscribe(response => {
       console.log('Response:', response);
-      if (response.status == "OK") {
-        this.router.navigate(['/home']);
-        sessionStorage.setItem('username', response.user.username);
-        sessionStorage.setItem('userId', response.user.id);
+      if (response.username == this.username) {
+        this.registerCompleted = true;
+        this.router.navigate(['/']);
       }
     });
   }

@@ -1,0 +1,6 @@
+.layout-main-container{
+  position:fixed;
+  flex-direction: column;
+  justify-content: space-between;
+  left:20rem;
+}

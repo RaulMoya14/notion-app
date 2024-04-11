@@ -47,9 +47,6 @@ export class AddNoteComponent {
     this.notesService.addNote(note);
     let user = sessionStorage.getItem('userId') || '';
     console.log(user)
-    // this.notesService.getNotes(user).subscribe((data) => {
-    //   console.log(data)});
-
 
   }
 

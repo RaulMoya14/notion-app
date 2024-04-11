@@ -1,0 +1,48 @@
+.note-list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.note-list {
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.note-item {
+  margin-bottom: 10px;
+  border: 2px solid blue;
+  border-radius: 5px;
+}
+
+.note-title {
+
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.note-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-edit,
+.btn-delete {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-edit i,
+.btn-delete i {
+  font-size: 1.5rem;
+}
+
+.btn-edit i:hover,
+.btn-delete i:hover {
+  color: blue;
+}
