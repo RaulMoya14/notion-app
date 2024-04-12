@@ -1,1 +1,31 @@
-<p>collection-notes works!</p>
+<div class="container collection" style="padding-left: 6rem;">
+  <div class="row mt-5">
+    <h1>Welcome to our note collection feature!</h1>
+    <h3>With our application, you can effortlessly group multiple notes into collections</h3>
+  </div>
+  <div class="row mt-5"><h5>Add Note to Collection</h5></div>
+  <form (submit)="addNote()">
+    <div class="dropdown">
+      <div class="row mt-4">
+        <div class="col-md-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Note
+          </button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let note of userNotes">
+              <a class="dropdown-item" (click)="selectNoteToAdd(note._id)">{{ note.title }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-10">
+          <input pInputText type="text" class="form-control" placeholder="Enter the collection title" [(ngModel)]="collectionTitle" [ngModelOptions]="{standalone: true}" />
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 align-items-center">
+      <div class="col-md-6 offset-md-5">
+        <button class="btn btn-primary" type="submit">Add to Collection</button>
+      </div>
+    </div>
+  </form>
+</div>
