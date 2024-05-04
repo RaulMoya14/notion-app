@@ -1,0 +1,30 @@
+<div class="container mt-5 justify-content-center">
+  <h2>Add a Friend</h2>
+  <p>Add a user as a friend so you can share notes together.</p>
+  <form [formGroup]="users">
+    <p-multiSelect [options]="friends" formControlName="selectedUsers" display="chip" optionLabel="username" placeholder="Send request friends"></p-multiSelect>
+  </form>
+  <button class="btn btn-primary mt-3" (click)="addFriend()">Add Friend</button>
+  <p>Your friends list</p>
+  <div class="row">
+
+      <p-listbox
+          [options]="pruebaFriends"
+          [(ngModel)]="selectedFriends"
+          [selectAll]="false"
+          optionLabel="label"
+          [style]="{ width: '15rem' }"
+          [virtualScroll]="true"
+          [filter]="true"
+          [virtualScrollItemSize]="43"
+          [multiple]="true"
+          [checkbox]="true"
+          [showToggleAll]="false"
+          [metaKeySelection]="false"
+          [showToggleAll]="true"
+          [listStyle]="{ 'max-height': '220px' }"
+      ></p-listbox>
+
+  </div>
+</div>
+

@@ -7,6 +7,7 @@ import { ViewNoteComponent } from './components/view-note/view-note.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { CollectionNotesComponent } from './components/collection-notes/collection-notes.component';
+import { AddFriendComponent } from './components/add-friend/add-friend.component';
 
 export const routes: Routes = [
 
@@ -17,6 +18,7 @@ export const routes: Routes = [
         { path: 'userNotes', component: ViewUserNotesComponent},
         { path: 'addNote', component: AddNoteComponent},
         { path: 'viewNote/:id', component: ViewNoteComponent},
-        { path: 'collection', component: CollectionNotesComponent}
+        { path: 'collection', component: CollectionNotesComponent},
+        { path: 'addFriend', component: AddFriendComponent}
     ]}
 ];
