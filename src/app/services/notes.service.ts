@@ -11,11 +11,7 @@ export class NotesService {
     constructor(private httpclient: HttpClient) { }
 
     addNote(jsonNote:any) {
-        this.httpclient.post<any>('http://localhost:3000/notes/insert', jsonNote,{ headers: { 'Content-Type': 'application/json' } } ).subscribe(data => {
-            console.log(data);
-        }, (error) => {
-            console.log('Error en la solicitud: ', error);
-        });
+      return this.httpclient.post<any>('http://localhost:3000/notes/insert', jsonNote,{ headers: { 'Content-Type': 'application/json' } } );
     }
 
     getNote(id:string) {
@@ -23,11 +19,7 @@ export class NotesService {
     }
 
     updateNote(jsonNote:any,idNote:string) {
-        this.httpclient.put<any>(`http://localhost:3000/notes/${idNote}`,jsonNote,{ headers: { 'Content-Type': 'application/json' } }).subscribe(data => {
-            console.log(data);
-        }, (error) => {
-            console.log('Error en la solicitud: ', error);
-        });
+      return this.httpclient.put<any>(`http://localhost:3000/notes/${idNote}`,jsonNote,{ headers: { 'Content-Type': 'application/json' } });
     }
 
     deleteNoteById(id: string) {

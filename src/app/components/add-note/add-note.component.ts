@@ -3,13 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { DropdownItemComponent } from '../dropdown-item/dropdown-item.component';
 import { Item } from '../../models/item';
 import { NotesService } from '../../services/notes.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-add-note',
   standalone: true,
-  imports: [FormsModule,DropdownItemComponent],
+  imports: [FormsModule,DropdownItemComponent,ToastModule],
   templateUrl: './add-note.component.html',
-  styleUrl: './add-note.component.css'
+  styleUrl: './add-note.component.css',
+  providers: [MessageService]
 })
 export class AddNoteComponent {
 
@@ -19,7 +22,7 @@ export class AddNoteComponent {
   item?: Item;
   itemsList: Item[] = [];
 
-  constructor(private notesService:NotesService) { }
+  constructor(private notesService:NotesService, private message:MessageService) { }
 
   addFieldToNote(fieldType: string) {
     let new_item = { type: fieldType, data: '', orden: this.itemsList.length+1};
@@ -35,7 +38,7 @@ export class AddNoteComponent {
   addNote(){
 
     let note = {
-      user: sessionStorage.getItem('userId') || '',
+      users: sessionStorage.getItem('userId') || '',
       title: this.title,
       items: [{}]
     };
@@ -43,11 +46,13 @@ export class AddNoteComponent {
     for (let i = 0; i < this.itemsList.length; i++) {
       note.items.push(this.itemsList[i]);
     }
-    console.log('Note: ', note);
-    this.notesService.addNote(note);
-    let user = sessionStorage.getItem('userId') || '';
-    console.log(user)
-
+    this.notesService.addNote(note).subscribe({
+      next: response => {
+        console.log(response);
+        this.message.add({severity:'success', summary:'Success', detail:'Note added successfully'});
+      },
+      error: err => this.message.add({severity:'error', summary:'Error', detail:'An error occurred while adding the note'})
+    });
   }
 
   onFileSelected(event: any, item:Item) {

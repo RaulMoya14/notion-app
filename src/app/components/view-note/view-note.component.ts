@@ -5,13 +5,16 @@ import { NotesService } from '../../services/notes.service';
 import { DropdownItemComponent } from '../dropdown-item/dropdown-item.component';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-view-note',
   standalone: true,
-  imports: [FormsModule,DropdownItemComponent],
+  imports: [FormsModule,DropdownItemComponent,ToastModule],
   templateUrl: './view-note.component.html',
-  styleUrl: './view-note.component.css'
+  styleUrl: './view-note.component.css',
+  providers: [MessageService]
 })
 export class ViewNoteComponent implements OnInit{
 
@@ -21,7 +24,8 @@ export class ViewNoteComponent implements OnInit{
   itemsList: Item[] = [];
   idNote?: string;
 
-  constructor(private notesService:NotesService, private route: ActivatedRoute, private router:Router) { }
+  constructor(private notesService:NotesService, private route: ActivatedRoute, private router:Router,
+              private message:MessageService) { }
 
   ngOnInit(){
     this.getNote();
@@ -58,8 +62,12 @@ export class ViewNoteComponent implements OnInit{
       title: this.title,
       items: this.itemsList
     };
-    console.log('Note: ', note);
-    this.notesService.updateNote(note,this.idNote || '')
+    this.notesService.updateNote(note,this.idNote || '').subscribe({
+      next: response => {
+        this.message.add({severity:'success', summary:'Success', detail:'Note updated'});
+      },
+      error: err => this.message.add({severity:'error', summary:'Error', detail:'Error updating note'})
+    });
   }
 
   onFileSelected(event: any, item:Item) {
