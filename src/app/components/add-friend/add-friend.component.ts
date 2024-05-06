@@ -7,13 +7,18 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { FormControl } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule, Spinner } from 'ngx-spinner';
+import { NgxSpinnerService } from "ngx-spinner";
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-add-friend',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,MultiSelectModule,ListboxModule,CommonModule],
+  imports: [FormsModule,ReactiveFormsModule,MultiSelectModule,ListboxModule,CommonModule,NgxSpinnerModule,ToastModule],
   templateUrl: './add-friend.component.html',
-  styleUrl: './add-friend.component.css'
+  styleUrl: './add-friend.component.css',
+  providers: [MessageService]
 })
 export class AddFriendComponent implements OnInit{
 
@@ -21,22 +26,12 @@ export class AddFriendComponent implements OnInit{
   users: FormGroup;
   selectedFriends!:any;
   username:string = '';
+  idUser:string = '';
   userFriends:any[] = [];
+  showFriends:boolean = false;
+  pendingRequests:any[] = [];
 
-  // pruebaFriends:any[] = [{
-  //   label: 'User 1',
-  //   value: 'User 1'
-  // },
-  // {
-  //   label: 'User 2',
-  //   value: 'User 2'
-  // },
-  // {
-  //   label: 'User 3',
-  //   value: 'User 3'
-  // }];
-
-  constructor(private friendsService:FriendsService) {
+  constructor(private friendsService:FriendsService, private spinner:NgxSpinnerService, private message:MessageService) {
     this.users = new FormGroup({});
   }
 
@@ -45,33 +40,62 @@ export class AddFriendComponent implements OnInit{
       console.log(data);
       this.friends = data as string[];
     });
-    this.getFriendsList();
     this.users= new FormGroup({
       selectedUsers: new FormControl<any>(null)
     });
     this.username = sessionStorage.getItem('username') || '';
+    this.idUser = sessionStorage.getItem('userId') || '';
     this.getFriendsList();
+    this.getPendingRequests();
   }
 
-  addFriend(){
+  sendRequest(){
     console.log(this.users.value.selectedUsers);
     let requests_friend = this.users.value.selectedUsers;
     this.users.reset();
-    this.friendsService.addFriend(this.username,requests_friend).subscribe((data)=>{
-      console.log(data);
-    });
+    for(let request in requests_friend){
+      this.friendsService.sendRequestFriend(this.idUser,request).subscribe((data)=>{
+        console.log(data);
+        this.message.add({severity:'success', summary:'Success', detail:'Friend request sent'});
+      });
+    }
   }
 
   getFriendsList():void{
-
-    this.friendsService.getFriends('admin').subscribe((data)=>{
+    this.spinner.show();
+    this.friendsService.getFriends(this.idUser).subscribe((data)=>{
       console.log(data);
       if ('friends' in data && Array.isArray(data.friends)) {
-        const friendsArray: string[]= data.friends;
-        console.log(friendsArray);
-        this.userFriends = friendsArray;
+        for(let friend in data.friends){
+          this.userFriends.push({
+            label: data.friends[friend],
+            value: data.friends[friend]
+          }
+          )
+        }
       }
+      console.log(this.userFriends);
+      this.showFriends = true;
+      this.spinner.hide();
     });
+  }
+
+  getPendingRequests():void{
+    this.spinner.show();
+    this.friendsService.getPendingRequests(this.username).subscribe((data)=>{
+      console.log(data);
+      if ('pending_requests' in data && Array.isArray(data.pending_requests)) {
+        this.pendingRequests = data.pending_requests;
+      }
+      console.log(this.pendingRequests);
+      this.spinner.hide();
+    });
+  }
+
+  removeFriend(){
+    this.spinner.show();
+    console.log(this.selectedFriends);
+
   }
 
 }

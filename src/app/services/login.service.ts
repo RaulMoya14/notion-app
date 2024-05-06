@@ -31,4 +31,8 @@ export class LoginService {
     return this.httpclient.post<any>('http://localhost:3000/register', body, { headers: { 'Content-Type': 'application/json' } });
   }
 
+  deleteAccount(username:string): Observable<any> {
+    return this.httpclient.delete<any>(`http://localhost:3000/deleteAccount/${username}`);
+  }
+
 }
