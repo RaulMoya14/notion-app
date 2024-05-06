@@ -5,11 +5,11 @@
     <p-multiSelect [options]="friends" formControlName="selectedUsers" display="chip" optionLabel="username" placeholder="Send request friends"></p-multiSelect>
   </form>
   <button class="btn btn-primary mt-3" (click)="addFriend()">Add Friend</button>
-  <p>Your friends list</p>
-  <div class="row">
-
+  <div class="row mt-5">
+    <h3>Your friends list</h3>
+    <p>This section is for viewing your list of friends and deleting them if you wish.</p>
       <p-listbox
-          [options]="pruebaFriends"
+          [options]="userFriends"
           [(ngModel)]="selectedFriends"
           [selectAll]="false"
           optionLabel="label"

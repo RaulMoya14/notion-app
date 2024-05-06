@@ -23,18 +23,18 @@ export class AddFriendComponent implements OnInit{
   username:string = '';
   userFriends:any[] = [];
 
-  pruebaFriends:any[] = [{
-    label: 'User 1',
-    value: 'User 1'
-  },
-  {
-    label: 'User 2',
-    value: 'User 2'
-  },
-  {
-    label: 'User 3',
-    value: 'User 3'
-  }];
+  // pruebaFriends:any[] = [{
+  //   label: 'User 1',
+  //   value: 'User 1'
+  // },
+  // {
+  //   label: 'User 2',
+  //   value: 'User 2'
+  // },
+  // {
+  //   label: 'User 3',
+  //   value: 'User 3'
+  // }];
 
   constructor(private friendsService:FriendsService) {
     this.users = new FormGroup({});
@@ -50,20 +50,22 @@ export class AddFriendComponent implements OnInit{
       selectedUsers: new FormControl<any>(null)
     });
     this.username = sessionStorage.getItem('username') || '';
+    this.getFriendsList();
   }
 
   addFriend(){
     console.log(this.users.value.selectedUsers);
     let requests_friend = this.users.value.selectedUsers;
     this.users.reset();
-    // this.friendsService.addFriend(this.username,requests_friend).subscribe((data)=>{
-    //   console.log(data);
-    // });
+    this.friendsService.addFriend(this.username,requests_friend).subscribe((data)=>{
+      console.log(data);
+    });
   }
 
   getFriendsList():void{
 
     this.friendsService.getFriends('admin').subscribe((data)=>{
+      console.log(data);
       if ('friends' in data && Array.isArray(data.friends)) {
         const friendsArray: string[]= data.friends;
         console.log(friendsArray);

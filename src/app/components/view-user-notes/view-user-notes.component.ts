@@ -25,6 +25,7 @@ export class ViewUserNotesComponent implements OnInit{
 
   getNotes(){
     let user = sessionStorage.getItem('userId') || '';
+    console.log(user)
     this.notesService.getNotes(user).subscribe((data) => {
       console.log(data);
       this.addInfoToListNotes(data);
