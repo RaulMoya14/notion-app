@@ -10,13 +10,32 @@
     </div>
     <div class="col-md-6">
       <h2>Pending friend requests</h2>
-      <p *ngIf="pendingRequests.length > 0">You can accept or decline the request.</p>
-      <p *ngIf="pendingRequests.length == 0">In this moment you don't have pending requests</p>
+      <div *ngIf="pendingRequests.length > 0">
+        <p>You have {{pendingRequests.length}} pending requests.</p>
+        <p>You can accept or decline the request.</p>
+        <div *ngFor="let request of pendingRequests">
+          <div class="row">
+            <div class="col-2">
+              <li>{{request}}</li>
+            </div>
+            <div class="col-1">
+              <button class="btn btn-success" (click)="acceptRequest(request)">
+                <i class="bi bi-check"></i>
+              </button>
+            </div>
+            <div class="col-1">
+              <button class="btn btn-danger" (click)="rejectRequest(request)">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
     </div>
+    <p *ngIf="pendingRequests.length == 0">In this moment you don't have pending requests</p>
   </div>
   <div class="row mt-5">
     <h3>Your friends list</h3>
-    <div *ngIf="showFriends" class="row">
+    <div *ngIf="userFriends.length > 0" class="row">
       <div class="col-6">
           <p-listbox
               [options]="userFriends"
@@ -37,8 +56,8 @@
         <button class="btn btn-danger mt-3" (click)="removeFriend()" [disabled]="!selectedFriends || selectedFriends.length === 0" >Remove Friend</button>
       </div>
     </div>
-    <div *ngIf="!showFriends">
-      <p>No friends found, send a request to the users to find a friend</p>
+    <div *ngIf="userFriends.length == 0">
+      <p>No friends found, send requests or accept a request to have your first friend</p>
     </div>
   </div>
 </div>

@@ -11,6 +11,7 @@ import { NgxSpinnerModule, Spinner } from 'ngx-spinner';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ListPendingRequests } from '../../models/list-pending-requests';
 
 @Component({
   selector: 'app-add-friend',
@@ -28,7 +29,6 @@ export class AddFriendComponent implements OnInit{
   username:string = '';
   idUser:string = '';
   userFriends:any[] = [];
-  showFriends:boolean = false;
   pendingRequests:any[] = [];
 
   constructor(private friendsService:FriendsService, private spinner:NgxSpinnerService, private message:MessageService) {
@@ -37,7 +37,6 @@ export class AddFriendComponent implements OnInit{
 
   ngOnInit(): void {
     this.friendsService.getUsers().subscribe((data)=>{
-      console.log(data);
       this.friends = data as string[];
     });
     this.users= new FormGroup({
@@ -50,11 +49,10 @@ export class AddFriendComponent implements OnInit{
   }
 
   sendRequest(){
-    console.log(this.users.value.selectedUsers);
     let requests_friend = this.users.value.selectedUsers;
     this.users.reset();
     for(let request in requests_friend){
-      this.friendsService.sendRequestFriend(this.idUser,request).subscribe((data)=>{
+      this.friendsService.sendRequestFriend(this.idUser,requests_friend[request].username).subscribe((data)=>{
         console.log(data);
         this.message.add({severity:'success', summary:'Success', detail:'Friend request sent'});
       });
@@ -62,8 +60,9 @@ export class AddFriendComponent implements OnInit{
   }
 
   getFriendsList():void{
+    this.userFriends = [];
     this.spinner.show();
-    this.friendsService.getFriends(this.idUser).subscribe((data)=>{
+    this.friendsService.getFriends(this.username).subscribe((data)=>{
       console.log(data);
       if ('friends' in data && Array.isArray(data.friends)) {
         for(let friend in data.friends){
@@ -74,28 +73,73 @@ export class AddFriendComponent implements OnInit{
           )
         }
       }
-      console.log(this.userFriends);
-      this.showFriends = true;
       this.spinner.hide();
     });
   }
 
   getPendingRequests():void{
     this.spinner.show();
-    this.friendsService.getPendingRequests(this.username).subscribe((data)=>{
-      console.log(data);
-      if ('pending_requests' in data && Array.isArray(data.pending_requests)) {
-        this.pendingRequests = data.pending_requests;
-      }
-      console.log(this.pendingRequests);
+    this.friendsService.getPendingRequests(this.username).subscribe(
+      (data:ListPendingRequests) => {
+        this.pendingRequests = data.friendsRequests;
+        this.spinner.hide();
+      },
+      (error) => {
+        console.log(error);
       this.spinner.hide();
     });
   }
 
   removeFriend(){
     this.spinner.show();
-    console.log(this.selectedFriends);
+    for(let friend in this.selectedFriends){
+      this.friendsService.removeFriend(this.idUser,this.selectedFriends[friend].value).subscribe({
+        next: response => {
+          console.log(response);
+          this.getFriendsList();
+          this.spinner.hide();
+          this.message.add({severity:'success', summary:'Success', detail:'Friend removed successfully'});
+        },
+        error: err => {
+          this.spinner.hide();
+          this.message.add({severity:'error', summary:'Error', detail:'An error occurred while removing the friend'})
+        }
+      });
+    }
+  }
 
+  acceptRequest(user:any){
+    this.spinner.show();
+    this.friendsService.acceptRequest(this.idUser,user).subscribe({
+      next: response => {
+        console.log(response);
+        this.getFriendsList();
+        this.getPendingRequests();
+        this.spinner.hide();
+        this.message.add({severity:'success', summary:'Success', detail:'Friend added successfully'});
+      },
+      error: err => {
+        this.spinner.hide();
+        this.message.add({severity:'error', summary:'Error', detail:'An error occurred while accepting the friend'})
+      }
+    });
+  }
+
+  rejectRequest(user:any){
+    this.spinner.show();
+    this.friendsService.rejectRequest(this.idUser,user).subscribe({
+      next: response => {
+        console.log(response);
+        this.getFriendsList();
+        this.getPendingRequests();
+        this.spinner.hide();
+        this.message.add({severity:'success', summary:'Success', detail:'Request friend rejected'});
+      },
+      error: err => {
+        this.spinner.hide();
+        this.message.add({severity:'error', summary:'Error', detail:'An error occurred while rejecting the request friend'})
+      }
+    });
   }
 
 }
