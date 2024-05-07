@@ -1,45 +1,105 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NotesService } from '../../services/notes.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CollectionService } from '../../services/collection.service';
+import { Collection } from '../../models/collection';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { FriendsService } from '../../services/friends.service';
+import { FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FriendList } from '../../models/friend-list';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-collection-notes',
   standalone: true,
-  imports: [FormsModule,CommonModule,ReactiveFormsModule],
+  imports: [FormsModule,CommonModule,ReactiveFormsModule,ToastModule,MultiSelectModule,NgxSpinnerModule],
   templateUrl: './collection-notes.component.html',
-  styleUrl: './collection-notes.component.css'
+  styleUrl: './collection-notes.component.css',
+  providers: [MessageService]
 })
 export class CollectionNotesComponent implements OnInit{
 
-  userNotes?:any[];
-  selectedNoteId: any = '';
   collectionTitle: string = '';
+  userCollections:Collection[] = [];
+  users: FormGroup;
+  userFriends:any[] = [];
 
-  constructor(private notesService: NotesService) {}
+  constructor(private collectionService: CollectionService, private message:MessageService,
+              private router:Router, private friendsService:FriendsService, private spinner:NgxSpinnerService
+  ) {
+    this.users= new FormGroup({
+      selectedFriends: new FormControl<any>(null)
+    });
+  }
 
   ngOnInit(): void {
+    this.spinner.show();
+    this.getUserCollections();
+    this.getFriends();
+    this.spinner.hide();
+  }
+
+  addCollection() {
     let user = sessionStorage.getItem('userId') || '';
-    this.notesService.getNotes(user).subscribe((data) => {
-      console.log('User Notes:', data);
-      this.userNotes = data;
-    } );
+    this.collectionService.addCollection(user,this.collectionTitle).subscribe({
+      next: (data) => {
+        this.message.add({severity:'success', summary:'Success', detail:'Collection added'});
+        this.getUserCollections();
+      },
+      error: (error) => {
+        this.message.add({severity:'error', summary:'Error', detail:'Error adding collection'});
+      }
+    });
+  }
+  getUserCollections(){
+    let user = sessionStorage.getItem('userId') || '';
+    this.collectionService.getCollections(user).subscribe((data) => {
+      console.log(data);
+      this.userCollections = data;
+    });
+  }
+  deleteCollection(idCollection:string){
+    this.collectionService.deleteCollection(idCollection).subscribe({
+      next: (data:any) => {
+        this.message.add({severity:'success', summary:'Success', detail:'Collection deleted'});
+        this.getUserCollections();
+      },
+      error: (error:any) => {
+        this.message.add({severity:'error', summary:'Error', detail:'Error deleting collection'});
+      }
+    });
+  }
+  viewCollection(idCollection:string){
+    console.log(this.userCollections)
+    // this.router.navigate([`/viewCollection/${idCollection}`]);
   }
 
-  selectNoteToAdd(noteId: any) {
-    this.selectedNoteId = noteId;
+  getFriends(){
+    this.friendsService.getFriends(sessionStorage.getItem('username') || '').subscribe({
+      next: (data) => {
+        console.log(data)
+        for(let user in data.friends){
+          console.log(data.friends[user])
+          this.userFriends.push({ username: data.friends[user] });
+        }
+      },
+      error: (error:any) => {
+        console.log('Error getting friends');
+      }
+    });
   }
 
-  addNote() {
-    console.log(this.collectionTitle.valueOf())
-    if (!this.selectedNoteId || !this.collectionTitle) {
-      console.log('Please select a note and enter a collection title.');
-      return;
+  shareCollection(idCollection:string){
+    if(this.users.value.selectedFriends != null){
+      let friends = this.users.value.selectedFriends;
+      console.log(friends);
+      console.log(idCollection);
     }
-    console.log('Selected Note ID:', this.selectedNoteId);
-    console.log('Collection Title:', this.collectionTitle);
-    this.selectedNoteId = '';
-    this.collectionTitle = '';
   }
 }
