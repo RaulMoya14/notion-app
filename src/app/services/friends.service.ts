@@ -24,7 +24,7 @@ export class FriendsService {
   }
 
   getFriends(user:string){
-    return this.HttpClient.get(`http://localhost:3000/friends/${user}`);
+    return this.HttpClient.get<any>(`http://localhost:3000/friends/${user}`);
   }
 
   removeFriend(user:string,friend:string){

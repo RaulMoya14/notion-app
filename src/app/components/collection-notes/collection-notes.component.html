@@ -3,29 +3,37 @@
     <h1>Welcome to our note collection feature!</h1>
     <h3>With our application, you can effortlessly group multiple notes into collections</h3>
   </div>
-  <div class="row mt-5"><h5>Add Note to Collection</h5></div>
-  <form (submit)="addNote()">
-    <div class="dropdown">
-      <div class="row mt-4">
-        <div class="col-md-2">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select Note
-          </button>
-          <ul class="dropdown-menu">
-            <li *ngFor="let note of userNotes">
-              <a class="dropdown-item" (click)="selectNoteToAdd(note._id)">{{ note.title }}</a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-10">
-          <input pInputText type="text" class="form-control" placeholder="Enter the collection title" [(ngModel)]="collectionTitle" [ngModelOptions]="{standalone: true}" />
+  <div class="row mt-5"><h5>Create a new collection</h5></div>
+    <div class="row">
+      <div class="col-md-6">
+        <input pInputText type="text" class="form-control" placeholder="Enter the collection title" [(ngModel)]="collectionTitle" />
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary" type="submit" (click)="addCollection()">Create</button>
+      </div>
+    </div>
+  <div class="row mt-5"><h5>Your collections</h5></div>
+  <div class="row">
+    <div *ngIf="userCollections.length > 0" class="collection list">
+      <div *ngFor="let collection of userCollections" class="collection item">
+        <div class="row mt-3 collection">
+          <div class="col-md-3">
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Share</button>
+            <form [formGroup]="users">
+              <p-multiSelect [options]="userFriends" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
+            </form>
+          </div>
+          <div class="col-md-3">
+            <div class="collection title">{{ collection.title }}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="collection  actions">
+              <button class="btn btn-primary" (click)="viewCollection(collection._id)">View</button>
+              <button class="btn btn-danger" (click)="deleteCollection(collection._id)">Delete</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="row mt-4 align-items-center">
-      <div class="col-md-6 offset-md-5">
-        <button class="btn btn-primary" type="submit">Add to Collection</button>
-      </div>
-    </div>
-  </form>
 </div>
+<p-toast></p-toast>
