@@ -32,6 +32,7 @@ export class ViewUserNotesComponent implements OnInit{
   friendsSelected: any;
   userFriends: any[] = [];
   username:string = '';
+  idUser:string = '';
 
   constructor(private notesService:NotesService, private router:Router, private collectionService:CollectionService,
               private friendsService:FriendsService, private spinner:NgxSpinnerService, private shareNotesService:ShareNotesService,
@@ -40,6 +41,7 @@ export class ViewUserNotesComponent implements OnInit{
 
   ngOnInit(){
     this.username = sessionStorage.getItem('username') || '';
+    this.idUser = sessionStorage.getItem('userId') || '';
     this.getNotes();
     this.getUserCollections();
     this.getFriendsList();
@@ -51,8 +53,8 @@ export class ViewUserNotesComponent implements OnInit{
 
   getNotes(){
     let user = sessionStorage.getItem('userId') || '';
-    console.log(user)
     this.notesService.getNotes(user).subscribe((data) => {
+      console.log("NOTAS USER")
       console.log(data);
       this.addInfoToListNotes(data);
     });
@@ -62,6 +64,8 @@ export class ViewUserNotesComponent implements OnInit{
       let note = {
         idNote: data[i]._id,
         title: data[i].title,
+        owner: data[i].owner,
+        users: data[i].users,
       }
       this.notes.push(note);
     }

@@ -10,7 +10,7 @@
                 <button class="btn-edit" (click)="editNoteById(note.idNote)">
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button class="btn-edit" (click)="deleteNoteById(note.idNote)">
+                <button *ngIf="note.owner == idUser" class="btn-edit" (click)="deleteNoteById(note.idNote)">
                   <i class="bi bi-trash-fill"></i>
                 </button>
           </div>

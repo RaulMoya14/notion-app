@@ -15,7 +15,7 @@ export class CollectionService {
 
     addCollection(idUser:string,collectionTitle: string): Observable<any> {
       let new_collection = {
-        users:idUser,
+        owner:idUser,
         notes: [],
         title: collectionTitle
       }
@@ -33,6 +33,6 @@ export class CollectionService {
         }
         console.log(body)
         console.log(idCollection)
-        return this.httpclient.put<any>(`http://localhost:3000/collection/${idCollection}`, body);
+        return this.httpclient.put<any>(`http://localhost:3000/collection/addUsers/${idCollection}`, body);
     }
 }
