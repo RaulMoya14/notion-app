@@ -16,21 +16,27 @@
   <div class="row">
     <div *ngIf="userCollections.length > 0" class="collection list">
       <div *ngFor="let collection of userCollections" class="collection item">
-        <div class="row mt-3 align-items-center collection">
-          <div class="col-md-5 align-items-center">
+        <div class="row mt-3 align-items-center justify-content-center collection">
+          <div class="col-md-1 d-flex align-items-center">
+            <div class="collection title">{{ collection.title }}</div>
+          </div>
+          <div class="col-md-2 d-flex align-items-center">
+            <div class="collection  actions">
+              <button class="btn btn-primary" (click)="viewCollection(collection._id)"><i class="bi bi-eye-fill"></i></button>
+              <button class="btn btn-danger" (click)="deleteCollection(collection._id)"><i class="bi bi-trash-fill"></i></button>
+            </div>
+          </div>
+          <div class="col-md-5 d-flex align-items-center justify-content-start">
             <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Share</button>
             <form [formGroup]="users">
               <p-multiSelect [options]="userFriends" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
             </form>
           </div>
-          <div class="col-md-5 align-items-center">
-            <div class="collection title">{{ collection.title }}</div>
-          </div>
-          <div class="col-md-2 align-items-center">
-            <div class="collection  actions">
-              <button class="btn btn-primary" (click)="viewCollection(collection._id)">View</button>
-              <button class="btn btn-danger" (click)="deleteCollection(collection._id)">Delete</button>
-            </div>
+          <div class="col-md-4 d-flex align-items-center justify-content-start">
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Quit</button>
+            <form [formGroup]="users">
+              <p-multiSelect [options]="userFriends" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Quit shared friends"></p-multiSelect>
+            </form>
           </div>
         </div>
       </div>
