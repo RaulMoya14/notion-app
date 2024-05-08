@@ -98,8 +98,17 @@ export class CollectionNotesComponent implements OnInit{
   shareCollection(idCollection:string){
     if(this.users.value.selectedFriends != null){
       let friends = this.users.value.selectedFriends;
-      console.log(friends);
-      console.log(idCollection);
+      for(let friend in friends){
+        console.log(friends[friend].username);
+        this.collectionService.shareCollection(idCollection,friends[friend].username).subscribe({
+          next: (data:any) => {
+            this.message.add({severity:'success', summary:'Success', detail:'Collection shared'});
+          },
+          error: (error:any) => {
+            this.message.add({severity:'error', summary:'Error', detail:'Error sharing collection'});
+          }
+        });
+      }
     }
   }
 }

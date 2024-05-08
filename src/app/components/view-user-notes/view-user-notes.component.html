@@ -1,25 +1,34 @@
 <div class="container">
   <h2 class="text-center mt-4" style="margin-top: 5rem;">Welcome to your personal note repository! Here, you can effortlessly access and organize all your notes and ideas</h2>
   <div class="note-list-container">
-    <div *ngIf="notes.length > 0" class="note-list">
-      <div *ngFor="let note of notes" class="note-item">
-        <div class="note-row">
 
-          <div class="note-title">{{ note.title }}</div>
-          <div class="note-actions">
-            <button class="btn-edit" (click)="editNoteById(note.idNote)">
-              <i class="bi bi-eye-fill"></i>
-            </button>
-            <button class="btn-edit" (click)="deleteNoteById(note.idNote)">
-              <i class="bi bi-trash-fill"></i>
-            </button>
+      <div class="row align-items-center">
+        <div class="col-md-12" *ngFor="let note of notes">
+          <div class="row mt-4 user-note align-items-center">
+            <div class="col-md-4 d-flex align-items-center">
+              {{ note.title }}
+                <button class="btn-edit" (click)="editNoteById(note.idNote)">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                <button *ngIf="note.owner == idUser" class="btn-edit" (click)="deleteNoteById(note.idNote)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+          </div>
+            <div class="col-md-4 d-flex align-items-center">
+              <button class="btn btn-primary" (click)="addNoteToCollection(note)">Add</button>
+              <p-multiSelect [options]="userCollections" [(ngModel)]="note.selectedCollection" display="chip" optionLabel="title" placeholder="Add to collection"></p-multiSelect>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+              <button class="btn btn-primary" (click)="shareNoteWithFriend(note)">Share</button>
+              <p-multiSelect [options]="userFriends" [(ngModel)]="note.friendsSelected" display="chip" optionLabel="label" placeholder="Share to friends"></p-multiSelect>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     <div *ngIf="notes.length == 0">
       <p>No notes found, create a new note to start your repository</p>
     </div>
   </div>
 </div>
+<p-toast></p-toast>
 

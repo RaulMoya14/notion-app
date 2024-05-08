@@ -41,9 +41,17 @@
 .note-actions {
   display: flex;
 }
+.user-note{
+  padding: 1rem;
+  margin-bottom: 10px;
+  border: 2px solid blue;
+  border-radius: 5px;
 
+}
 
-.btn-edit,
+.btn-edit{
+  border-radius: 1px solid rgb(57, 15, 175);
+}
 .btn-delete {
   border: none;
   background: none;

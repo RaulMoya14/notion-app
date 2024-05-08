@@ -16,17 +16,17 @@
   <div class="row">
     <div *ngIf="userCollections.length > 0" class="collection list">
       <div *ngFor="let collection of userCollections" class="collection item">
-        <div class="row mt-3 collection">
-          <div class="col-md-3">
+        <div class="row mt-3 align-items-center collection">
+          <div class="col-md-5 align-items-center">
             <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Share</button>
             <form [formGroup]="users">
               <p-multiSelect [options]="userFriends" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
             </form>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-5 align-items-center">
             <div class="collection title">{{ collection.title }}</div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-2 align-items-center">
             <div class="collection  actions">
               <button class="btn btn-primary" (click)="viewCollection(collection._id)">View</button>
               <button class="btn btn-danger" (click)="deleteCollection(collection._id)">Delete</button>
@@ -34,6 +34,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="userCollections.length == 0">
+      <p>No collections found, create a new collection to start organizing your notes</p>
     </div>
 </div>
 <p-toast></p-toast>

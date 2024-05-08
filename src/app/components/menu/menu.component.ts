@@ -13,19 +13,20 @@ import { LoginService } from '../../services/login.service';
 export class MenuComponent implements OnInit{
 
   username: string = '';
+  idUser: string = '';
 
   constructor(private router:Router, private loginService:LoginService) { }
 
   ngOnInit(): void {
     this.username = sessionStorage.getItem('username') || '';
-    console.log('Username:', this.username);
+    this.idUser = sessionStorage.getItem('userId') || '';
   }
   signOut(){
     sessionStorage.clear();
     this.router.navigate(['']);
   }
   deleteAccount(){
-    this.loginService.deleteAccount(this.username).subscribe({
+    this.loginService.deleteAccount(this.idUser).subscribe({
       next: data => {
         console.log(data);
       },

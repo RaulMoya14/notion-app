@@ -15,7 +15,7 @@ export class CollectionService {
 
     addCollection(idUser:string,collectionTitle: string): Observable<any> {
       let new_collection = {
-        user:idUser,
+        owner:idUser,
         notes: [],
         title: collectionTitle
       }
@@ -25,5 +25,14 @@ export class CollectionService {
 
     deleteCollection(idCollection: string): Observable<any> {
         return this.httpclient.delete<any>(`http://localhost:3000/collection/${idCollection}`);
+    }
+
+    shareCollection(idCollection: string, idFriend: string): Observable<any> {
+        let body = {
+          users: idFriend
+        }
+        console.log(body)
+        console.log(idCollection)
+        return this.httpclient.put<any>(`http://localhost:3000/collection/addUsers/${idCollection}`, body);
     }
 }
