@@ -38,7 +38,7 @@ export class AddNoteComponent {
   addNote(){
 
     let note = {
-      users: sessionStorage.getItem('userId') || '',
+      owner: sessionStorage.getItem('userId') || '',
       title: this.title,
       items: [{}]
     };

@@ -8,25 +8,45 @@ import { CollectionService } from '../../services/collection.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FriendsService } from '../../services/friends.service';
+import { NgxSpinnerModule, Spinner } from 'ngx-spinner';
+import { NgxSpinnerService } from "ngx-spinner";
+import { ShareNotesService } from '../../services/share-notes.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-view-user-notes',
   standalone: true,
-  imports: [DropdownItemComponent, CommonModule, ReactiveFormsModule,MultiSelectModule,FormsModule],
+  imports: [DropdownItemComponent, CommonModule, ReactiveFormsModule,MultiSelectModule,FormsModule, NgxSpinnerModule, ToastModule],
   templateUrl: './view-user-notes.component.html',
-  styleUrl: './view-user-notes.component.css'
+  styleUrl: './view-user-notes.component.css',
+  providers: [MessageService]
+
 })
 export class ViewUserNotesComponent implements OnInit{
 
   notes: any[] = [];
   userCollections: any[] = [];
   collectionSelected: any;
+  friendsSelected: any;
+  userFriends: any[] = [];
+  username:string = '';
 
-  constructor(private notesService:NotesService, private router:Router, private collectionService:CollectionService) { }
+  constructor(private notesService:NotesService, private router:Router, private collectionService:CollectionService,
+              private friendsService:FriendsService, private spinner:NgxSpinnerService, private shareNotesService:ShareNotesService,
+              private messageService:MessageService
+  ) { }
 
   ngOnInit(){
+    this.username = sessionStorage.getItem('username') || '';
     this.getNotes();
     this.getUserCollections();
+    this.getFriendsList();
+    this.notes.forEach(note => {
+      note.selectedCollection = null;
+      note.friendsSelected = null
+    });
   }
 
   getNotes(){
@@ -50,8 +70,15 @@ export class ViewUserNotesComponent implements OnInit{
 
   deleteNoteById(id:string){
     console.log('Eliminando nota con id: ', id);
-    this.notesService.deleteNoteById(id);
-    window.location.reload();
+    this.notesService.deleteNoteById(id).subscribe({
+      next: (data:any) => {
+        this.messageService.add({severity:'success', summary:'Success', detail:'Note deleted'});
+      },
+      error: (err:any) => {
+        this.messageService.add({severity:'error', summary:'Error', detail:'Error deleting note'});
+      }
+    });
+    this.getNotes();
   }
   editNoteById(idNote:string){
     console.log(idNote)
@@ -69,8 +96,37 @@ export class ViewUserNotesComponent implements OnInit{
       }
     });
   }
-  addNoteToCollection(){
+  addNoteToCollection(note:any){
     console.log(this.collectionSelected);
+  }
+
+  getFriendsList():void{
+    this.userFriends = [];
+    this.spinner.show();
+    this.friendsService.getFriends(this.username).subscribe((data)=>{
+      if ('friends' in data && Array.isArray(data.friends)) {
+        for(let friend in data.friends){
+          this.userFriends.push({
+            label: data.friends[friend],
+            value: data.friends[friend]
+          }
+          )
+        }
+      }
+      this.spinner.hide();
+    });
+  }
+  shareNoteWithFriend(nota:any){
+    for (let i = 0; i < nota.friendsSelected.length; i++) {
+      this.shareNotesService.shareNote(nota.idNote, nota.friendsSelected[i].value).subscribe({
+        next: (data) => {
+          this.messageService.add({severity:'success', summary:'Success', detail:'Note shared with friend'});
+        },
+        error: (error) => {
+          this.messageService.add({severity:'error', summary:'Error', detail:'Error sharing note with friend'});
+        }
+      });
+    }
   }
 
 }
