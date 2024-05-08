@@ -2,17 +2,25 @@
   <h2 class="text-center mt-4" style="margin-top: 5rem;">Welcome to your personal note repository! Here, you can effortlessly access and organize all your notes and ideas</h2>
   <div class="note-list-container">
     <div *ngIf="notes.length > 0" class="note-list">
-      <div *ngFor="let note of notes" class="note-item">
-        <div class="note-row">
-
-          <div class="note-title">{{ note.title }}</div>
-          <div class="note-actions">
-            <button class="btn-edit" (click)="editNoteById(note.idNote)">
-              <i class="bi bi-eye-fill"></i>
-            </button>
-            <button class="btn-edit" (click)="deleteNoteById(note.idNote)">
-              <i class="bi bi-trash-fill"></i>
-            </button>
+      <div *ngFor="let note of notes">
+        <div class="row">
+          <div class="col-md-4">
+            <p>Add to collection</p>
+            <p-multiSelect [options]="userCollections" [(ngModel)]="collectionSelected" display="chip" optionLabel="title" placeholder="Select collection"></p-multiSelect>
+            <button class="btn btn-primary" (click)="addNoteToCollection()">Add</button>
+          </div>
+          <div class="col-md-8">
+            <div class="note-row">
+              <div class="note-title">{{ note.title }}</div>
+              <div class="note-actions">
+                <button class="btn-edit" (click)="editNoteById(note.idNote)">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+                <button class="btn-edit" (click)="deleteNoteById(note.idNote)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

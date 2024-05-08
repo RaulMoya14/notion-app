@@ -2,25 +2,31 @@ import { Component,OnInit } from '@angular/core';
 import { NotesService } from '../../services/notes.service';
 import { Item } from '../../models/item';
 import { DropdownItemComponent } from '../dropdown-item/dropdown-item.component';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CollectionService } from '../../services/collection.service';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-user-notes',
   standalone: true,
-  imports: [DropdownItemComponent, CommonModule, ReactiveFormsModule],
+  imports: [DropdownItemComponent, CommonModule, ReactiveFormsModule,MultiSelectModule,FormsModule],
   templateUrl: './view-user-notes.component.html',
   styleUrl: './view-user-notes.component.css'
 })
 export class ViewUserNotesComponent implements OnInit{
 
   notes: any[] = [];
+  userCollections: any[] = [];
+  collectionSelected: any;
 
-  constructor(private notesService:NotesService, private router:Router) { }
+  constructor(private notesService:NotesService, private router:Router, private collectionService:CollectionService) { }
 
   ngOnInit(){
     this.getNotes();
+    this.getUserCollections();
   }
 
   getNotes(){
@@ -51,6 +57,20 @@ export class ViewUserNotesComponent implements OnInit{
     console.log(idNote)
     console.log('Editando nota con id: ', idNote);
     this.router.navigate([`/viewNote/${idNote}`]);
+  }
+  getUserCollections(){
+    let user = sessionStorage.getItem('userId') || '';
+    this.collectionService.getCollections(user).subscribe({
+      next: (data) => {
+        this.userCollections = data;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+  addNoteToCollection(){
+    console.log(this.collectionSelected);
   }
 
 }
