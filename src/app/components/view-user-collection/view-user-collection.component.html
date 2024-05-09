@@ -1,0 +1,29 @@
+<div class="container justify-content-center align-text-center mt-5">
+  <h2>Here you can see and manage your collections. Organization is important!</h2>
+  <button class="btn btn-primary goBack" (click)="goBack()" style="position: fixed;top: 5rem;right: 5rem;">
+    <i class="bi bi-arrow-return-left"></i>
+  </button>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+      <h2>{{title}}</h2>
+    </div>
+  </div>
+<div class="row mt-4">
+  <ng-container *ngFor="let note of itemsList; let i = index;">
+    <div class="col-md-3 d-flex flex-column note-collection justify-content-center">
+      <div class="note-box d-flex flex-column align-items-center justify-content-center">
+        <h5>{{ note }}</h5>
+      <div class="notes-actions">
+        <button class="btn btn-primary" (click)="seeNoteCollection(note)" style="width:3rem;height:3rem;">
+          <i class="bi bi-eye-fill"></i>
+        </button>
+        <button class="btn btn-danger" (click)="deleteNote(note)" style="width:3rem;height:3rem;">
+          <i class="bi bi-trash-fill"></i>
+        </button>
+      </div>
+      </div>
+    </div>
+    <div *ngIf="(i + 1) % 4 === 0" class="w-100"></div>
+  </ng-container>
+</div>
+</div>

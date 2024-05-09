@@ -14,4 +14,11 @@ export class ShareNotesService {
     }
     return this.httpClient.put<any>(`http://localhost:3000/notes/addUsers/${idNote}`,body);
   }
+
+  quitNoteFriend(idNote: string, idFriend: string) {
+    let body = {
+      users: idFriend
+    }
+    return this.httpClient.put<any>(`http://localhost:3000/notes/removeUsers/${idNote}`,body);
+  }
 }

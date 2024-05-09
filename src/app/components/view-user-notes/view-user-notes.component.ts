@@ -31,6 +31,7 @@ export class ViewUserNotesComponent implements OnInit{
   collectionSelected: any;
   friendsSelected: any;
   userFriends: any[] = [];
+  quitFriends: any[] = [];
   username:string = '';
   idUser:string = '';
 
@@ -48,6 +49,7 @@ export class ViewUserNotesComponent implements OnInit{
     this.notes.forEach(note => {
       note.selectedCollection = null;
       note.friendsSelected = null
+      note.quitSelected = null;
     });
   }
 
@@ -101,7 +103,17 @@ export class ViewUserNotesComponent implements OnInit{
     });
   }
   addNoteToCollection(note:any){
-    console.log(this.collectionSelected);
+    console.log(note);
+    for (let i = 0; i < note.selectedCollection.length; i++) {
+      this.collectionService.addNoteToCollection(note.selectedCollection[i]._id,note.idNote).subscribe({
+        next: (data) => {
+          this.messageService.add({severity:'success', summary:'Success', detail:'Note added to collection'});
+        },
+        error: (error) => {
+          this.messageService.add({severity:'error', summary:'Error', detail:'Error adding note to collection'});
+        }
+      });
+    }
   }
 
   getFriendsList():void{
@@ -128,6 +140,19 @@ export class ViewUserNotesComponent implements OnInit{
         },
         error: (error) => {
           this.messageService.add({severity:'error', summary:'Error', detail:'Error sharing note with friend'});
+        }
+      });
+    }
+  }
+
+  quitNoteFriend(note:any){
+    for (let i = 0; i < note.quitSelected.length; i++) {
+      this.shareNotesService.quitNoteFriend(note.idNote, note.quitSelected[i].value).subscribe({
+        next: (data:any) => {
+          this.messageService.add({severity:'success', summary:'Success', detail:'Friend removed from note'});
+        },
+        error: (error:any) => {
+          this.messageService.add({severity:'error', summary:'Error', detail:'Error removing friend from note'});
         }
       });
     }

@@ -46,6 +46,14 @@
   margin-bottom: 10px;
   border: 2px solid blue;
   border-radius: 5px;
+  background-color: #def7fc;
+  &:hover {
+    background-color: #c9f0f4;
+    transform: scale(1.01);
+  }
+}
+.container{
+  width: 90%;
 
 }
 

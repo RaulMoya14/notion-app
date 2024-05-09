@@ -1,31 +1,35 @@
 <div class="container">
   <h2 class="text-center mt-4" style="margin-top: 5rem;">Welcome to your personal note repository! Here, you can effortlessly access and organize all your notes and ideas</h2>
   <div class="note-list-container">
-
       <div class="row align-items-center">
         <div class="col-md-12" *ngFor="let note of notes">
-          <div class="row mt-4 user-note align-items-center">
-            <div class="col-md-2 d-flex justify-content-start align-items-center">
-              {{ note.title }}
+          <div class="row user-note align-items-center">
+            <div class="col-md-1 d-flex justify-content-start align-items-center">
+              <div class="d-flex align-items-center">
+                <i title="This note is shared,you can only edit or view the note because you are not the owner" *ngIf="note.owner != idUser" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;"></i>
+                {{ note.title }}
+              </div>
+            </div>
+              <div class="col-md-2 d-flex justify-content-center align-items-center">
                 <button style="margin-left: 0.2rem;" class="btn btn-primary" (click)="editNoteById(note.idNote)">
                   <i class="bi bi-eye-fill"></i>
                 </button>
-                <button *ngIf="note.owner == idUser" class="btn btn-danger" (click)="deleteNoteById(note.idNote)">
+                <button style="margin-left: 0.2rem;" *ngIf="note.owner == idUser" class="btn btn-danger" (click)="deleteNoteById(note.idNote)">
                   <i class="bi bi-trash-fill"></i>
                 </button>
-          </div>
-            <div class="col-md-4 d-flex justify-content-end align-items-center">
-              <button class="btn btn-primary" (click)="addNoteToCollection(note)">Add</button>
-              <p-multiSelect [options]="userCollections" [(ngModel)]="note.selectedCollection" display="chip" optionLabel="title" placeholder="Add to collection"></p-multiSelect>
+              </div>
+            <div class="col-md-3 d-flex justify-content-end align-items-center">
+              <button style="margin-right: 0.2rem;" [disabled]="note.owner != idUser" class="btn btn-primary" (click)="addNoteToCollection(note)">Add</button>
+              <p-multiSelect [options]="userCollections" appendTo="body" [disabled]="note.owner != idUser" [(ngModel)]="note.selectedCollection" display="chip" optionLabel="title" placeholder="Add to collection"></p-multiSelect>
             </div>
             <div class="col-md-3 d-flex align-items-center">
-              <button class="btn btn-primary" (click)="shareNoteWithFriend(note)">Share</button>
-              <p-multiSelect [options]="userFriends" [(ngModel)]="note.friendsSelected" display="chip" optionLabel="label" placeholder="Share to friends"></p-multiSelect>
+              <button style="margin-right: 0.2rem;" class="btn btn-primary" [disabled]="note.owner != idUser" (click)="shareNoteWithFriend(note)">Share</button>
+              <p-multiSelect [options]="userFriends" appendTo="body" [disabled]="note.owner != idUser" [(ngModel)]="note.friendsSelected" display="chip" optionLabel="label" placeholder="Share to friends"></p-multiSelect>
             </div>
 
             <div class="col-md-3 d-flex align-items-center">
-              <button class="btn btn-primary" (click)="shareNoteWithFriend(note)">Quit</button>
-              <p-multiSelect [options]="userFriends" [(ngModel)]="note.friendsSelected" display="chip" optionLabel="label" placeholder="Quit shared friends"></p-multiSelect>
+              <button style="margin-right: 0.2rem;" class="btn btn-primary" [disabled]="note.owner != idUser" (click)="quitNoteFriend(note)">Quit</button>
+              <p-multiSelect [options]="userFriends" [disabled]="note.owner != idUser" appendTo="body" [(ngModel)]="note.quitSelected" display="chip" optionLabel="label" placeholder="Quit shared friends"></p-multiSelect>
             </div>
 
           </div>

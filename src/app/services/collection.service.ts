@@ -9,10 +9,20 @@ export class CollectionService {
 
     constructor(private httpclient: HttpClient) { }
 
-    getCollections(idUser: string): Observable<any> {
-        return this.httpclient.get<any>(`http://localhost:3000/collection/user/${idUser}`);
+    addNoteToCollection(idCollection: string, idNote: string): Observable<any> {
+      let body = {
+        notes: idNote
+      }
+      console.log(body)
+      return this.httpclient.put<any>(`http://localhost:3000/collection/addNote/${idCollection}`, body);
     }
 
+    getCollections(idUser: string): Observable<any> {
+      return this.httpclient.get<any>(`http://localhost:3000/collection/user/${idUser}`);
+    }
+    getCollection(idCollection: string): Observable<any> {
+      return this.httpclient.get<any>(`http://localhost:3000/collection/${idCollection}`);
+    }
     addCollection(idUser:string,collectionTitle: string): Observable<any> {
       let new_collection = {
         owner:idUser,
@@ -34,5 +44,9 @@ export class CollectionService {
         console.log(body)
         console.log(idCollection)
         return this.httpclient.put<any>(`http://localhost:3000/collection/addUsers/${idCollection}`, body);
+    }
+
+    deleteNoteFromCollection(note: any): Observable<any> {
+        return this.httpclient.delete<any>(`http://localhost:3000/collection/deleteNote/${note}`);
     }
 }

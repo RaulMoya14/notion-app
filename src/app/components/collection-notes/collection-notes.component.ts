@@ -29,6 +29,8 @@ export class CollectionNotesComponent implements OnInit{
   userCollections:Collection[] = [];
   users: FormGroup;
   userFriends:any[] = [];
+  idUser:string = '';
+  username:string = '';
 
   constructor(private collectionService: CollectionService, private message:MessageService,
               private router:Router, private friendsService:FriendsService, private spinner:NgxSpinnerService
@@ -40,6 +42,8 @@ export class CollectionNotesComponent implements OnInit{
 
   ngOnInit(): void {
     this.spinner.show();
+    this.idUser = sessionStorage.getItem('userId') || '';
+    this.username = sessionStorage.getItem('username') || '';
     this.getUserCollections();
     this.getFriends();
     this.spinner.hide();
@@ -77,7 +81,7 @@ export class CollectionNotesComponent implements OnInit{
   }
   viewCollection(idCollection:string){
     console.log(this.userCollections)
-    // this.router.navigate([`/viewCollection/${idCollection}`]);
+    this.router.navigate([`/viewCollection/${idCollection}`]);
   }
 
   getFriends(){
