@@ -46,7 +46,10 @@ export class CollectionService {
         return this.httpclient.put<any>(`http://localhost:3000/collection/addUsers/${idCollection}`, body);
     }
 
-    deleteNoteFromCollection(note: any): Observable<any> {
-        return this.httpclient.delete<any>(`http://localhost:3000/collection/deleteNote/${note}`);
+    deleteNoteFromCollection(idCollection:string,idNote:string): Observable<any> {
+      let body = {
+        notes: idNote
+      }
+        return this.httpclient.put<any>(`http://localhost:3000/collection/removeNote/${idCollection}`, body);
     }
 }

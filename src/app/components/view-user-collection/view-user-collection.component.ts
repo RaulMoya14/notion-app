@@ -47,10 +47,10 @@ export class ViewUserCollectionComponent {
   }
 
   deleteNote(note:any){
-    this.collectionService.deleteNoteFromCollection(note).subscribe({
+    this.collectionService.deleteNoteFromCollection(this.idCollection,note).subscribe({
       next: (data:any) => {
         console.log(data);
-        this.router.navigate([`/collection`]);
+        this.getCollection();
       },
       error: (error:any) => {
         console.log(error);

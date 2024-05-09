@@ -6,7 +6,8 @@
           <div class="row user-note align-items-center">
             <div class="col-md-1 d-flex justify-content-start align-items-center">
               <div class="d-flex align-items-center">
-                <i title="This note is shared,you can only edit or view the note because you are not the owner" *ngIf="note.owner != idUser" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;"></i>
+                <i title="This note is shared,you can only edit or view the note because you are not the owner" *ngIf="note.owner != idUser" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;color: rgb(22, 73, 117);"></i>
+                <i title="This note is shared with other people and you are the owner" *ngIf="note.owner == idUser && note.users.length>1" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;color: rgb(22, 73, 117);"></i>
                 {{ note.title }}
               </div>
             </div>
