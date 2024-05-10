@@ -106,6 +106,7 @@ export class CollectionNotesComponent implements OnInit{
         console.log(friends[friend].username);
         this.collectionService.shareCollection(idCollection,friends[friend].username).subscribe({
           next: (data:any) => {
+            this.getUserCollections();
             this.message.add({severity:'success', summary:'Success', detail:'Collection shared'});
           },
           error: (error:any) => {

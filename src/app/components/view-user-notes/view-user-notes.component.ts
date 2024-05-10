@@ -54,6 +54,7 @@ export class ViewUserNotesComponent implements OnInit{
   }
 
   getNotes(){
+    this.notes = [];
     let user = sessionStorage.getItem('userId') || '';
     this.notesService.getNotes(user).subscribe((data) => {
       console.log("NOTAS USER")
@@ -137,6 +138,7 @@ export class ViewUserNotesComponent implements OnInit{
       this.shareNotesService.shareNote(nota.idNote, nota.friendsSelected[i].value).subscribe({
         next: (data) => {
           this.messageService.add({severity:'success', summary:'Success', detail:'Note shared with friend'});
+          this.getNotes();
         },
         error: (error) => {
           this.messageService.add({severity:'error', summary:'Error', detail:'Error sharing note with friend'});
