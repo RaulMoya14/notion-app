@@ -28,13 +28,13 @@
             </div>
           </div>
           <div class="col-md-4 d-flex align-items-center justify-content-start">
-            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Share</button>
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends || idUser != collection.owner" (click)="shareCollection(collection._id)">Share</button>
             <form [formGroup]="users">
               <p-multiSelect [options]="userFriends" [disabled]="idUser != collection.owner" appendTo="body" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
             </form>
           </div>
           <div class="col-md-4 d-flex align-items-center justify-content-start">
-            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Quit</button>
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends || idUser != collection.owner" (click)="shareCollection(collection._id)">Quit</button>
             <form [formGroup]="users">
               <p-multiSelect [options]="userFriends" [disabled]="idUser != collection.owner" appendTo="body" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Quit shared friends"></p-multiSelect>
             </form>
