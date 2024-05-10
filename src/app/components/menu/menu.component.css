@@ -2,9 +2,15 @@
   display: inline-block;
   left: 0 !important;
   position:fixed !important;
-  width: 20rem;
+  width: 18rem;
   background-color: #f0f0eb;
 }
 .nav-link{
   color: black;
+}
+@media (min-width: 576px){
+  .px-sm-2 {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
 }

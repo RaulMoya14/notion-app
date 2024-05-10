@@ -14,9 +14,9 @@
         <p>You have {{pendingRequests.length}} pending requests.</p>
         <p>You can accept or decline the request.</p>
         <div *ngFor="let request of pendingRequests">
-          <div class="row">
-            <div class="col-2">
-              <li>{{request}}</li>
+          <div class="row mt-3 align-items-center">
+            <div class="col-3 friend-request">
+              <li style="list-style: none;"><i class="bi bi-person-circle" style="font-size: 2rem;padding-right: 0.2rem;"></i>{{request}}</li>
             </div>
             <div class="col-1">
               <button class="btn btn-success" (click)="acceptRequest(request)">
@@ -49,10 +49,10 @@
               [multiple]="true"
               [checkbox]="true"
               [showToggleAll]="false"
-              [listStyle]="{ 'max-height': '220px' }"
+              [listStyle]="{ 'height': '13rem' }"
           ></p-listbox>
       </div>
-      <div class="col-6">
+      <div class="col-2">
         <button class="btn btn-danger mt-3" (click)="removeFriend()" [disabled]="!selectedFriends || selectedFriends.length === 0" >Remove Friend</button>
       </div>
     </div>

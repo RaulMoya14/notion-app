@@ -36,16 +36,22 @@ export class AddFriendComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.friendsService.getUsers().subscribe((data)=>{
-      this.friends = data as string[];
-    });
+    this.username = sessionStorage.getItem('username') || '';
+    this.idUser = sessionStorage.getItem('userId') || '';
     this.users= new FormGroup({
       selectedUsers: new FormControl<any>(null)
     });
-    this.username = sessionStorage.getItem('username') || '';
-    this.idUser = sessionStorage.getItem('userId') || '';
     this.getFriendsList();
     this.getPendingRequests();
+    this.getUsers();
+  }
+
+  getUsers(){
+    this.friendsService.getUsers().subscribe((data)=>{
+      this.friends = data as string[];
+      console.log(this.userFriends);
+      this.friends = this.friends.filter(friend => friend.username !== this.username && !this.userFriends.some(user => user.label === friend.username));
+    });
   }
 
   sendRequest(){
@@ -53,7 +59,6 @@ export class AddFriendComponent implements OnInit{
     this.users.reset();
     for(let request in requests_friend){
       this.friendsService.sendRequestFriend(this.idUser,requests_friend[request].username).subscribe((data)=>{
-        console.log(data);
         this.message.add({severity:'success', summary:'Success', detail:'Friend request sent'});
       });
     }
@@ -115,6 +120,7 @@ export class AddFriendComponent implements OnInit{
         console.log(response);
         this.getFriendsList();
         this.getPendingRequests();
+        this.getUsers();
         this.spinner.hide();
         this.message.add({severity:'success', summary:'Success', detail:'Friend added successfully'});
       },

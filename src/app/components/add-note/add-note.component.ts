@@ -36,23 +36,26 @@ export class AddNoteComponent {
   }
 
   addNote(){
+    if(this.title && this.title!=''){
+      let note = {
+        owner: sessionStorage.getItem('userId') || '',
+        title: this.title,
+        items: [{}]
+      };
 
-    let note = {
-      owner: sessionStorage.getItem('userId') || '',
-      title: this.title,
-      items: [{}]
-    };
-
-    for (let i = 0; i < this.itemsList.length; i++) {
-      note.items.push(this.itemsList[i]);
+      for (let i = 0; i < this.itemsList.length; i++) {
+        note.items.push(this.itemsList[i]);
+      }
+      this.notesService.addNote(note).subscribe({
+        next: response => {
+          console.log(response);
+          this.message.add({severity:'success', summary:'Success', detail:'Note added successfully'});
+        },
+        error: err => this.message.add({severity:'error', summary:'Error', detail:'An error occurred while adding the note'})
+      });
+    }else{
+      this.message.add({severity:'warn', summary:'Empty field', detail:'Title is required'});
     }
-    this.notesService.addNote(note).subscribe({
-      next: response => {
-        console.log(response);
-        this.message.add({severity:'success', summary:'Success', detail:'Note added successfully'});
-      },
-      error: err => this.message.add({severity:'error', summary:'Error', detail:'An error occurred while adding the note'})
-    });
   }
 
   onFileSelected(event: any, item:Item) {

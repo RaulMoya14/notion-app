@@ -1,0 +1,13 @@
+.item-collection{
+    padding: 0.5rem;
+    border: 2px solid blue;
+    background-color: rgb(223, 245, 245);
+    border-radius: 10px;
+    &:hover {
+        background-color: rgb(201, 240, 244);
+        transform: scale(1.01);
+    }
+}
+.container{
+  width: 85%;
+}

@@ -1,0 +1,15 @@
+.note-collection{
+  background-color: aliceblue;
+  width: 25%;
+  height: 10rem;
+  margin: 1rem;
+  border-radius: 10%;
+  &:hover{
+    background-color: #d2f7f7;
+    transform: scale(1.05);
+  }
+}
+.note-actions{
+  display: flex;
+  justify-content: space-between;
+}

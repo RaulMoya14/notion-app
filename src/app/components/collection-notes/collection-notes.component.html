@@ -1,4 +1,4 @@
-<div class="container collection" style="padding-left: 6rem;">
+<div class="container collection">
   <div class="row mt-5">
     <h1>Welcome to our note collection feature!</h1>
     <h3>With our application, you can effortlessly group multiple notes into collections</h3>
@@ -9,31 +9,37 @@
         <input pInputText type="text" class="form-control" placeholder="Enter the collection title" [(ngModel)]="collectionTitle" />
       </div>
       <div class="col-md-6">
-        <button class="btn btn-primary" type="submit" (click)="addCollection()">Create</button>
+        <button class="btn btn-primary" type="submit" [disabled]="collectionTitle == ''" (click)="addCollection()">Create</button>
       </div>
     </div>
   <div class="row mt-5"><h5>Your collections</h5></div>
-  <div class="row">
-    <div *ngIf="userCollections.length > 0" class="collection list">
-      <div *ngFor="let collection of userCollections" class="collection item">
-        <div class="row mt-3 align-items-center collection">
-          <div class="col-md-5 align-items-center">
-            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends" (click)="shareCollection(collection._id)">Share</button>
-            <form [formGroup]="users">
-              <p-multiSelect [options]="userFriends" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
-            </form>
-          </div>
-          <div class="col-md-5 align-items-center">
+    <div *ngIf="userCollections.length > 0" class="row align-items-center">
+      <div *ngFor="let collection of userCollections" class="row align-items-center item-collection mt-3">
+        <div class="row mt-3 align-items-center justify-content-center collection">
+          <div class="col-md-2 d-flex align-items-center">
+            <i title="This note is shared,you can only edit or view the note because you are not the owner" *ngIf="collection.owner != idUser" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;color: rgb(22, 73, 117);"></i>
+            <i title="This note is shared with other people and you are the owner" *ngIf="collection.owner == idUser && collection.users.length>1" class="bi bi-share-fill" style="padding-right: 2rem;font-size: 1.7rem;margin-bottom: 1rem;margin-right: 0.5rem;color: rgb(22, 73, 117);"></i>
             <div class="collection title">{{ collection.title }}</div>
           </div>
-          <div class="col-md-2 align-items-center">
+          <div class="col-md-2 d-flex align-items-center">
             <div class="collection  actions">
-              <button class="btn btn-primary" (click)="viewCollection(collection._id)">View</button>
-              <button class="btn btn-danger" (click)="deleteCollection(collection._id)">Delete</button>
+              <button class="btn btn-primary" (click)="viewCollection(collection._id)"><i class="bi bi-eye-fill"></i></button>
+              <button class="btn btn-danger" *ngIf="idUser == collection.owner" (click)="deleteCollection(collection._id)"><i class="bi bi-trash-fill"></i></button>
             </div>
           </div>
+          <div class="col-md-4 d-flex align-items-center justify-content-start">
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends || idUser != collection.owner" (click)="shareCollection(collection._id)">Share</button>
+            <form [formGroup]="users">
+              <p-multiSelect [options]="userFriends" [disabled]="idUser != collection.owner" appendTo="body" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Share with friends"></p-multiSelect>
+            </form>
+          </div>
+          <div class="col-md-4 d-flex align-items-center justify-content-start">
+            <button class="btn btn-primary" [disabled]="!users.value.selectedFriends || idUser != collection.owner" (click)="shareCollection(collection._id)">Quit</button>
+            <form [formGroup]="users">
+              <p-multiSelect [options]="userFriends" [disabled]="idUser != collection.owner" appendTo="body" formControlName="selectedFriends" display="chip" optionLabel="username" placeholder="Quit shared friends"></p-multiSelect>
+            </form>
+          </div>
         </div>
-      </div>
     </div>
     <div *ngIf="userCollections.length == 0">
       <p>No collections found, create a new collection to start organizing your notes</p>

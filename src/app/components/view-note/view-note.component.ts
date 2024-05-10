@@ -81,4 +81,8 @@ export class ViewNoteComponent implements OnInit{
     }
   }
 
+  goBack(){
+    window.history.back();
+  }
+
 }
